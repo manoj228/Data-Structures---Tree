@@ -58,31 +58,54 @@ void delete(int data)
     }
     
     if(curr == p->right)
+    {
     p->right = NULL;
+    free(curr);
+    }
     
     else if(curr == p->left)
+    {
     p->left = NULL ;
+    free(curr);
+    }
     
     else if(curr -> left != NULL)
     {
-        if(curr == p->left)
+        if(curr == p->right)
             p->right = curr->left;
-        else
-            p->left = curr -> left ;
 
       curr -> left = NULL;
            
+         free(curr);
     }
     else if(curr->right != NULL)
     {
         if(curr == p->right)
         p->right = curr->right;
-        else
-        p->left = curr->right;
         
         curr -> right = NULL;
+        
+        free(curr);
     }
-    free(curr);
+    
+    else if(curr->right != NULL)
+    {
+        if(curr == p->left)
+        p->left = curr->right;
+        curr -> right = NULL;
+        free(curr);
+    }
+    
+    else if(curr -> left != NULL)
+    {
+         if(curr == p->left)
+         p->left = curr -> left;
+         
+         curr -> left = NULL;
+         
+         free(curr);
+         
+    }
 }
 
 void inorder(struct node *t)
@@ -141,13 +164,13 @@ int main()
           insert(20);
           insert(40);
           insert(60);
-          insert(90);
+          //insert(90);
           break;
           
           case 2 : inorder(root);
           break;
           
-          case 3 : delete(10);
+          case 3 : delete(60);
           break;
           
           case 4 : preorder(root);
