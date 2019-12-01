@@ -1,0 +1,51 @@
+
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node
+{
+    int data;
+    struct node *left,*right;
+};
+
+int aremirrors(struct node* a,struct node* b) 
+{ 
+    if (a==NULL && b==NULL) 
+        return 1; 
+  
+    if (a==NULL || b == NULL) 
+        return 0; 
+  
+    return  a->data == b->data && 
+            aremirrors(a->left, b->right) && 
+            aremirrors(a->right, b->left); 
+} 
+
+void *newnode(int data)
+{
+    struct node *temp;
+    temp = (struct node*) malloc (sizeof(struct node));
+    temp -> data = data;
+    temp -> left = NULL;
+    temp -> right = NULL;
+    
+}
+
+int main()
+{
+    struct node *a = newnode(1);
+    struct node *b = newnode(1);
+    a->left = newnode(2);
+    a->right = newnode(3);
+    a->left->left = newnode(4);
+    a->left->right = newnode(5);
+    
+    b->left = newnode(3);
+    b->right = newnode(2);
+    b->right->left = newnode(5);
+    b->right->right = newnode(4);
+    
+   aremirrors(a,b) ? printf("%d",1) : printf("%d",0);
+   
+    return 0;
+}
