@@ -164,7 +164,7 @@ int main()
           insert(20);
           insert(40);
           insert(60);
-          //insert(90);
+          insert(90);
           break;
           
           case 2 : inorder(root);
