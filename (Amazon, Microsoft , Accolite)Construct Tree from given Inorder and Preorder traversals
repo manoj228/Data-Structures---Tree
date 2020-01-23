@@ -1,0 +1,65 @@
+//Time complexity : O(n)
+
+#include <bits/stdc++.h>
+using namespace std;
+
+struct node
+{
+    int data;
+    struct node *left, *right;
+};
+
+struct node *newnode(int data)
+{
+    struct node *t = (struct node *)malloc(sizeof(struct node));
+    t->data = data;
+    t->left = t->right = NULL;
+    
+    return t;
+}
+
+void inorder(struct node *t)
+{
+    if(t->left) inorder(t->left);
+    
+    printf("%c ",t->data);
+    
+    if(t->right) inorder(t->right);
+}
+
+struct node *buildtree(char in[],char pre[],int strt,int end,unordered_map<char,int> mp)
+{
+    static int index = 0;
+    
+    if(strt > end) return NULL;
+    
+    struct node *tnode = newnode(pre[index++]);
+    
+    if(strt == end) return tnode;
+    
+    int inIndex = mp[pre[index-1]];
+    
+     tnode->left = buildtree(in,pre,strt,inIndex-1,mp);
+     tnode->right = buildtree(in,pre,inIndex+1,end,mp);
+    
+    return tnode;
+}
+
+struct node *build(char in[],char pre[],int strt,int end)
+{
+    unordered_map<char,int> mp;
+    for(int i=strt;i<=end;i++)
+    mp[in[i]] = i;
+    
+    return buildtree(in,pre,strt,end,mp);
+}
+int main()
+{
+    char in[] = { 'D', 'B', 'E', 'A', 'F', 'C' }; 
+    char pre[] = { 'A', 'B', 'D', 'E', 'C', 'F' }; 
+    int n = sizeof(in) / sizeof(in[0]); 
+    
+    struct node *tree = build(in,pre,0,n-1);
+    inorder(tree);
+    return 0;
+}
