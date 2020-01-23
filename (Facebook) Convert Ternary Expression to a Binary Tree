@@ -1,0 +1,61 @@
+//Time complexity : O(n)
+
+#include <bits/stdc++.h>
+using namespace std;
+
+struct node
+{
+    char data;
+    struct node *left,*right;
+};
+
+struct node* newnode(char c)
+{
+  struct node *t = (struct node *)malloc(sizeof(struct node));
+  t->data = c;
+  t->left = t->right = NULL;
+  return t;
+}
+
+struct node* convert(string expr,int &i)
+{
+    struct node *root = newnode(expr[i]);
+    
+    if(i == expr.length()-1) return root;
+    
+    i++;
+    
+    if(expr[i] == '?')
+    {
+        i++;
+        
+        root -> left = convert(expr,i);
+        
+        i++;
+        
+        root -> right = convert(expr,i);
+        
+        return root;
+    }
+    else
+    return root;
+}
+
+void printTree(node *t)
+{
+    if(!t) return;
+   printf("%c ",t->data);
+   printTree(t->left);
+   printTree(t->right);
+}
+
+int main()
+{
+    string expr = "a?b?c:d:e";
+    int i=0;
+    struct node *tree = convert(expr,i);
+    
+    printTree(tree);
+ 
+    return 0;
+}
