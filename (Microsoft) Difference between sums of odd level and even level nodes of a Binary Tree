@@ -1,0 +1,39 @@
+//Time complexity :O(n)
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node{
+    int data;
+    struct node *left,*right;
+};
+
+struct node *newNode(int data)
+{
+    struct node *t=(struct node *)malloc(sizeof(struct node));
+    t->data=data;
+    t->left=t->right=NULL;
+    return t;
+}
+
+int leveldiff(struct node* a)
+{
+    if(!a)
+    return 0;
+    
+    return a->data - leveldiff(a->left) - leveldiff(a->right);
+}
+int main()
+{
+    struct node *root = newNode(5); 
+    root->left = newNode(2); 
+    root->right = newNode(6); 
+    root->left->left  = newNode(1); 
+    root->left->right = newNode(4); 
+    root->left->right->left = newNode(3); 
+    root->right->right = newNode(8); 
+    root->right->right->right = newNode(9); 
+    root->right->right->left = newNode(7);
+    
+    printf("%d",leveldiff(root));
+    return 0;
+}
