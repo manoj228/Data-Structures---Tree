@@ -1,0 +1,91 @@
+//Time complexity : O(n)
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Node
+{
+    int data;
+    struct Node *left,*right;
+};
+
+struct Node *newTNode(int data)
+{
+    Node *t = new Node;
+    t->data = data;
+    t->left = t->right = NULL;
+    return t;
+}
+
+//double linked list node
+struct dllnode
+{
+    int data;
+    struct dllnode *prev,*link;
+};
+
+struct dllnode *newdnode(int data)
+{
+    dllnode *t=new dllnode;
+    t->data=data;
+    t->prev=t->link=NULL;
+    return t;
+}
+
+void verticalsumutil(Node *root,dllnode *sum)
+{
+    sum->data += root->data;
+    
+    //recursion for left subtree
+    if(root->left)
+    {
+        if(sum->prev == NULL)
+        {
+            sum->prev=newdnode(0);
+            sum->prev->link=sum;
+        }
+        verticalsumutil(root->left,sum->prev);
+    }
+    
+    //recursion for right subtree
+    if(root->right)
+    {
+        if(sum->link==NULL)
+        {
+            sum->link= newdnode(0);
+            sum->link->prev=sum;
+        }
+        verticalsumutil(root->right,sum->link);
+    }
+}
+
+void verticalsum(Node *root)
+{
+    dllnode *sum = newdnode(0);
+    
+    verticalsumutil(root,sum);
+    
+    while(sum->prev != NULL)
+    sum = sum->prev;
+    
+    
+    while(sum)
+    {
+        printf("%d ",sum->data);
+        sum = sum ->link;
+    }
+    
+    
+}
+int main()
+{
+    Node *root = newTNode(1); 
+    root->left = newTNode(2); 
+    root->right = newTNode(3); 
+    root->left->left = newTNode(4); 
+    root->left->right = newTNode(5); 
+    root->right->left = newTNode(6); 
+    root->right->right = newTNode(7); 
+    
+    verticalsum(root);
+    return 0;
+}
