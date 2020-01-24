@@ -1,0 +1,74 @@
+
+#include <bits/stdc++.h>
+using namespace std;
+
+struct node
+{
+    int data;
+    struct node *left,*right;
+};
+
+struct node *newnode(int data)
+{
+    struct node *temp = (struct node *)malloc(sizeof(struct node));
+    temp->data = data;
+    temp->left = temp->right = NULL;
+    return temp;
+}
+
+void inorder(struct node *a)
+{
+    if(a->left) inorder(a->left);
+    printf("%d ",a->data);
+    if(a->right) inorder(a->right);
+}
+
+int siblings(struct node *root,struct node *a,struct node *b)
+{
+    if(root == NULL) return 0;
+    
+    return ((root->left==a && root->right==b) ||
+            (root->left==b && root->right==a) ||
+            (siblings(root->left,a,b)) || (siblings(root->right,a,b)));
+}
+int level(struct node *root,struct node *p,int lev)
+{
+    if(root == NULL) return NULL;
+    
+    if(root == p) return lev;
+    
+    int l = level(root->left,p,lev+1);
+    if(l != 0) return l;
+    
+    return level(root->right,p,lev+1);
+}
+
+int check(struct node *root,struct node *a, struct node *b)
+{
+    if(level(root,a,1) == level(root,b,1) && !siblings(root,a,b))
+    return 1;
+    else
+    return 0;
+}
+int main()
+{
+    struct node *a = newnode(1);
+    a ->left = newnode(2);
+    a ->right = newnode(3);
+    a ->left ->left = newnode(4);
+    a ->left ->right = newnode(5);
+    a ->right ->left = newnode(6);
+    a ->right -> right = newnode(7);
+    a ->left ->right -> right = newnode(15);
+    a ->right ->left -> right = newnode(8);
+    
+    inorder(a);
+    
+    struct node *n1,*n2;
+    n1 = a->left->left;
+    n2 = a->right->right;
+    
+    check(a,n1,n2) ? printf("YES") : printf("NO") ;
+    
+    return 0;
+}
