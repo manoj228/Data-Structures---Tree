@@ -1,0 +1,68 @@
+//Time complexity : O(n)
+
+#include <bits/stdc++.h>
+using namespace std;
+
+struct node
+{
+    int data;
+    struct node *left,*right;
+};
+
+struct node *newnode(int data
+{
+    struct node *temp = (struct node *)malloc(sizeof(struct node));
+    temp->data=data;
+    temp->left=temp->right=NULL;
+    return temp;
+}
+
+int isleaf(struct node *a)
+{
+    if(a==NULL) 
+    return 0;
+    
+    if(a->left == NULL && a->right==NULL) 
+    return 1;
+    
+    return 0;
+}
+int isSumtree(struct node *a)
+{
+    int ls,rs;
+    
+    if(node == NULL || isleaf(a)) 
+    return 1;
+    
+    if(isSumtree(a->left) && isSumtree(a->right))
+    {
+        if(a->left == NULL)
+        ls = 0;
+        else if(isleaf(a->left))
+        ls = a->left->data; 
+        else 
+        ls = 2 * (a->left->data);
+        
+        if(a->right == NULL)
+        rs = 0;
+        else if(isleaf(a->right))
+        rs = a->right->data; 
+        else 
+        rs = 2 * (a->right->data); 
+        
+        return (a->data == ls+rs);
+    }
+    return 0;
+}
+int main()
+{
+   struct node *a=newnode(26);
+   a->left=newnode(10);
+   a->right=newnode(3);
+   a->left->left=newnode(4);
+   a->left->right=newnode(6);
+   a->right->right=newnode(3);
+   
+   isSumtree(a) ? printf("Given tree is a sum tree") : printf("Not a sum tree");
+    return 0;
+}
