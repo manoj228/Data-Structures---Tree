@@ -1,0 +1,68 @@
+
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Node
+{
+    int data;
+    struct Node *left,*right;
+    Node(int d)
+    {
+        data = d;
+        left = right = NULL;
+    }
+};
+
+void printVector(const vector<int> &v,int i)
+{
+    for(int k=i;k<v.size();k++)
+    printf("%d ",v[k]);
+    printf("\n");
+}
+void sumpathutil(Node *a,vector<int> &v,int k)
+{
+    if(!a) return;
+    
+    v.push_back(a->data);
+    
+    sumpathutil(a->left,v,k);
+    
+    sumpathutil(a->right,v,k);
+    
+    int s=0; 
+    for(int i=v.size()-1;i>=0;i--)
+    {
+        s += v[i];
+        
+        if(s==k)
+        printVector(v,i);
+    }
+    
+    v.pop_back();
+}
+
+void printksumpath(Node *root,int k)
+{
+    vector<int> v;
+    sumpathutil(root,v,k);
+}
+
+int main()
+{
+    Node *root = new Node(1); 
+    root->left = new Node(3); 
+    root->left->left = new Node(2); 
+    root->left->right = new Node(1); 
+    root->left->right->left = new Node(1); 
+    root->right = new Node(-1); 
+    root->right->left = new Node(4); 
+    root->right->left->left = new Node(1); 
+    root->right->left->right = new Node(2); 
+    root->right->right = new Node(5); 
+    root->right->right->right = new Node(2); 
+
+   int k=5;
+   printksumpath(root,k);
+  
+    return 0;
+}
