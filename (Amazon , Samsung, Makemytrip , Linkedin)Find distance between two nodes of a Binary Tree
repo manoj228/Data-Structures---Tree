@@ -1,0 +1,71 @@
+//Time complexity : O(n)
+
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Node{
+    int data;
+    struct Node *left,*right; 
+};
+
+Node *newNode(int data)
+{
+    Node *t = new Node;
+    t->data = data;
+    t->left = t->right = NULL;
+    return t;
+}
+
+Node *findlca(Node *root,int a,int b)
+{
+    if(!root) return 0;
+    
+    if(root->data == a || root->data ==b)
+    return root;
+    
+    Node *left = findlca(root->left,a,b);
+    Node *right = findlca(root->right,a,b);
+    
+    if(left && right) return root;
+    
+    return (left) ? findlca(root->left,a,b) : findlca(root->right,a,b);
+}
+
+int findlevel(Node *a,int k,int level)
+{   
+    if(!a) return -1;
+    
+    if(a->data == k) return level;
+    
+    int left = findlevel(a->left,k,level+1);
+    
+    if(left == -1)
+    return findlevel(a->right,k,level+1);
+    
+    return left;
+}
+
+int finddistance(struct Node *root,int a,int b)
+{
+    Node *lca = findlca(root,a,b);
+    
+    int d1 = findlevel(lca,a,0);
+    int d2 = findlevel(lca,b,0);
+    
+    return d1+d2;
+}
+
+int main()
+{
+    Node * root = newNode(1); 
+    root->left = newNode(2); 
+    root->right = newNode(3); 
+    root->left->left = newNode(4); 
+    root->left->right = newNode(5); 
+    root->right->left = newNode(6); 
+    root->right->right = newNode(7); 
+    root->right->left->right = newNode(8); 
+    
+    printf("%d",finddistance(root,4,6));
+    return 0;
+}
