@@ -1,0 +1,58 @@
+
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Node
+{
+    int data;
+    struct Node *left,*right;
+};
+
+struct Node *newNode(int data)
+{
+    Node *a = new Node;
+    a->data = data;
+    a->left = a->right = NULL;
+    return a;
+}
+
+void addgreat(Node *a,int *s)
+{
+    if(!a) return;
+    
+    addgreat(a->right,s);
+    
+    *s += a->data;
+    
+    a->data = *s;
+    
+    addgreat(a->left,s);
+}
+
+void inorder(Node *a)
+{
+    if(a->left) inorder(a->left);
+    
+    printf("%d ",a->data);
+    
+    if(a->right) inorder(a->right);
+}
+
+void addgreater(Node *root)
+{
+    int s=0;
+    addgreat(root,&s);
+    
+}
+int main()
+{
+    Node *root = newNode(5); 
+    root->left = newNode(2); 
+    root->right = newNode(13); 
+    
+    addgreater(root);
+    
+   // inorder(root);
+
+    return 0;
+}
