@@ -1,0 +1,65 @@
+
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Node
+{
+    int data;
+    struct Node *left,*right;
+};
+
+struct Node *newnode(int data)
+{
+    struct Node *t = new Node;
+    t->data = data;
+    t->left = t->right = NULL ;
+    
+    return t;
+}
+
+struct Node *insert(Node *a,int data)
+{
+    if(!a)
+    return newnode(data);
+    
+    if(data < a->data)
+    a -> left = insert(a->left , data);
+    else if(data > a->data)
+    a -> right = insert(a->right , data);
+    
+    return a;
+}
+
+void inorder(Node *a)
+{
+    if(a->left) inorder(a->left);
+    printf("%d ",a->data);
+    if(a->right) inorder(a->right);
+}
+
+int deadend(Node *root,int min=1,int max=INT_MAX)
+{
+    if(!root) return 0;
+    
+    if(min == max) return 1;
+    
+    return deadend(root->left,min,root->data-1) || 
+           deadend(root->right,root->data+1,max);
+}
+int main()
+{
+    Node* root = NULL; 
+    root = insert(root, 8); 
+    root = insert(root, 5); 
+    root = insert(root, 2); 
+    root = insert(root, 3); 
+    root = insert(root, 7); 
+    root = insert(root, 11); 
+    root = insert(root, 4);
+
+    inorder(root);
+    printf("\n");
+    deadend(root) ? printf("YES") : printf("NO") ;
+    
+    return 0;
+}
