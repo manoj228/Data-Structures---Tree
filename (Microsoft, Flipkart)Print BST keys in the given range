@@ -1,0 +1,47 @@
+
+#include <bits/stdc++.h>
+using namespace std;
+
+struct node
+{
+    int data;
+    struct node *left,*right;
+};
+
+node *newNode(int data)
+{
+    struct node *t = new node;
+    t->data = data;
+    t->left = t->right = NULL;
+    return t;
+}
+
+void printRange(node *root,int k1,int k2)
+{
+    if(!root) return;
+    
+    if(k1 < root -> data)
+    printRange(root->left,k1,k2);
+    
+    if(k1 <= root -> data && root->data <= k2)
+    printf("%d ",root->data);
+    
+    if(k2 > root->data)
+    printRange(root->right,k1,k2);
+}
+
+int main()
+{
+  struct node *root = NULL;
+  int k1 = 10, k2 = 25;
+  
+  root = newNode(20); 
+  root->left = newNode(8); 
+  root->right = newNode(22); 
+  root->left->left = newNode(4); 
+  root->left->right = newNode(12); 
+  
+  printRange(root,k1,k2);
+  
+    return 0;
+}
