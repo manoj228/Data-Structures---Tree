@@ -1,0 +1,27 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+void postOrderTraversalBST(int pre[],int n,int& index,int mini,int maxi)
+{
+	if(index == n) return;
+	
+	if(pre[index] < mini || pre[index] > maxi) return;
+	
+	int value = pre[index]; index++;
+	
+	postOrderTraversalBST(pre,n,index,mini,value);
+	postOrderTraversalBST(pre,n,index,value,maxi);
+	
+	cout << value << " ";
+	
+}
+
+int main() {
+	// your code goes here
+	int pre[] = { 40, 30, 35, 80, 100 }; 
+    int n = sizeof(pre) / sizeof(pre[0]); 
+    int index = 0;
+    
+    postOrderTraversalBST(pre,n,index,INT_MIN,INT_MAX);
+	return 0;
+}
